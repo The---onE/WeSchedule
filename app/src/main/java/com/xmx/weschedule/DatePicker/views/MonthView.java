@@ -158,12 +158,20 @@ public class MonthView extends View {
                         if (lastPointY < event.getY()) {
                             if (Math.abs(lastPointY - event.getY()) >= criticalHeight) {
                                 indexYear--;
-                                centerYear = centerYear - 1;
+                                centerMonth = (centerMonth - 1) % 12;
+                                if (centerMonth == 0) {
+                                    centerMonth = 12;
+                                    centerYear--;
+                                }
                             }
                         } else if (lastPointY > event.getY()) {
                             if (Math.abs(lastPointY - event.getY()) >= criticalHeight) {
                                 indexYear++;
-                                centerYear = centerYear + 1;
+                                centerMonth = (centerMonth + 1) % 13;
+                                if (centerMonth == 0) {
+                                    centerMonth = 1;
+                                    centerYear++;
+                                }
                             }
                         }
                         buildRegion();
@@ -726,23 +734,21 @@ public class MonthView extends View {
     }
 
     private void computeDate() {
-        rightYear = leftYear = centerYear;
-        topYear = centerYear - 1;
-        bottomYear = centerYear + 1;
+        topYear = bottomYear = centerYear;
+        leftYear = centerYear - 1;
+        rightYear = centerYear + 1;
 
-        topMonth = centerMonth;
-        bottomMonth = centerMonth;
-
-        rightMonth = centerMonth + 1;
-        leftMonth = centerMonth - 1;
+        leftMonth = rightMonth = centerMonth;
+        topMonth = centerMonth - 1;
+        bottomMonth = centerMonth + 1;
 
         if (centerMonth == 12) {
-            rightYear++;
-            rightMonth = 1;
+            bottomYear++;
+            bottomMonth = 1;
         }
         if (centerMonth == 1) {
-            leftYear--;
-            leftMonth = 12;
+            topYear--;
+            topMonth = 12;
         }
         if (null != onDateChangeListener) {
             onDateChangeListener.onYearChange(centerYear);
