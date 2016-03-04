@@ -68,7 +68,7 @@ public class MonthView extends View {
     private DPDecor mDPDecor;
 
     private int circleRadius;
-    private int indexYear, indexMonth;
+    private int indexMonth, indexYear;
     private int centerYear, centerMonth;
     private int leftYear, leftMonth;
     private int rightYear, rightMonth;
@@ -146,10 +146,10 @@ public class MonthView extends View {
                 }
                 if (mSlideMode == SlideMode.HOR) {
                     int totalMoveX = (int) (lastPointX - event.getX()) + lastMoveX;
-                    smoothScrollTo(totalMoveX, indexYear * height);
+                    smoothScrollTo(totalMoveX, indexMonth * height);
                 } else if (mSlideMode == SlideMode.VER) {
                     int totalMoveY = (int) (lastPointY - event.getY()) + lastMoveY;
-                    smoothScrollTo(width * indexMonth, totalMoveY);
+                    smoothScrollTo(width * indexYear, totalMoveY);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -157,7 +157,7 @@ public class MonthView extends View {
                     if (Math.abs(lastPointY - event.getY()) > 25) {
                         if (lastPointY < event.getY()) {
                             if (Math.abs(lastPointY - event.getY()) >= criticalHeight) {
-                                indexYear--;
+                                indexMonth--;
                                 centerMonth = (centerMonth - 1) % 12;
                                 if (centerMonth == 0) {
                                     centerMonth = 12;
@@ -166,7 +166,7 @@ public class MonthView extends View {
                             }
                         } else if (lastPointY > event.getY()) {
                             if (Math.abs(lastPointY - event.getY()) >= criticalHeight) {
-                                indexYear++;
+                                indexMonth++;
                                 centerMonth = (centerMonth + 1) % 13;
                                 if (centerMonth == 0) {
                                     centerMonth = 1;
@@ -176,8 +176,8 @@ public class MonthView extends View {
                         }
                         buildRegion();
                         computeDate();
-                        smoothScrollTo(width * indexMonth, height * indexYear);
-                        lastMoveY = height * indexYear;
+                        smoothScrollTo(width * indexYear, height * indexMonth);
+                        lastMoveY = height * indexMonth;
                     } else {
                         defineRegion((int) event.getX(), (int) event.getY());
                     }
@@ -185,25 +185,17 @@ public class MonthView extends View {
                     if (Math.abs(lastPointX - event.getX()) > 25) {
                         if (lastPointX > event.getX() &&
                                 Math.abs(lastPointX - event.getX()) >= criticalWidth) {
-                            indexMonth++;
-                            centerMonth = (centerMonth + 1) % 13;
-                            if (centerMonth == 0) {
-                                centerMonth = 1;
-                                centerYear++;
-                            }
+                            indexYear++;
+                            centerYear = centerYear + 1;
                         } else if (lastPointX < event.getX() &&
                                 Math.abs(lastPointX - event.getX()) >= criticalWidth) {
-                            indexMonth--;
-                            centerMonth = (centerMonth - 1) % 12;
-                            if (centerMonth == 0) {
-                                centerMonth = 12;
-                                centerYear--;
-                            }
+                            indexYear--;
+                            centerYear = centerYear - 1;
                         }
                         buildRegion();
                         computeDate();
-                        smoothScrollTo(width * indexMonth, indexYear * height);
-                        lastMoveX = width * indexMonth;
+                        smoothScrollTo(width * indexYear, indexMonth * height);
+                        lastMoveX = width * indexYear;
                     } else {
                         defineRegion((int) event.getX(), (int) event.getY());
                     }
@@ -286,11 +278,11 @@ public class MonthView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(mTManager.colorBG());
 
-        draw(canvas, width * indexMonth, (indexYear - 1) * height, topYear, topMonth);
-        draw(canvas, width * (indexMonth - 1), height * indexYear, leftYear, leftMonth);
-        draw(canvas, width * indexMonth, indexYear * height, centerYear, centerMonth);
-        draw(canvas, width * (indexMonth + 1), height * indexYear, rightYear, rightMonth);
-        draw(canvas, width * indexMonth, (indexYear + 1) * height, bottomYear, bottomMonth);
+        draw(canvas, width * indexYear, (indexMonth - 1) * height, topYear, topMonth);
+        draw(canvas, width * (indexYear - 1), height * indexMonth, leftYear, leftMonth);
+        draw(canvas, width * indexYear, indexMonth * height, centerYear, centerMonth);
+        draw(canvas, width * (indexYear + 1), height * indexMonth, rightYear, rightMonth);
+        draw(canvas, width * indexYear, (indexMonth + 1) * height, bottomYear, bottomMonth);
 
         drawBGCircle(canvas);
     }
@@ -507,8 +499,8 @@ public class MonthView extends View {
     void setDate(int year, int month) {
         centerYear = year;
         centerMonth = month;
-        indexYear = 0;
         indexMonth = 0;
+        indexYear = 0;
         buildRegion();
         computeDate();
         requestLayout();
@@ -557,7 +549,7 @@ public class MonthView extends View {
     }
 
     private void buildRegion() {
-        String key = indexYear + ":" + indexMonth;
+        String key = indexMonth + ":" + indexYear;
         if (!REGION_SELECTED.containsKey(key)) {
             REGION_SELECTED.put(key, new ArrayList<Region>());
         }
@@ -593,15 +585,15 @@ public class MonthView extends View {
                     continue;
                 }
                 if (region.contains(x, y)) {
-                    List<Region> regions = REGION_SELECTED.get(indexYear + ":" + indexMonth);
+                    List<Region> regions = REGION_SELECTED.get(indexMonth + ":" + indexYear);
                     if (mDPMode == DPMode.SINGLE) {
                         cirApr.clear();
                         regions.add(region);
                         final String date = centerYear + "-" + centerMonth + "-" +
                                 mCManager.obtainDPInfo(centerYear, centerMonth)[i][j].strG;
                         BGCircle circle = createCircle(
-                                region.getBounds().centerX() + indexMonth * width,
-                                region.getBounds().centerY() + indexYear * height);
+                                region.getBounds().centerX() + indexYear * width,
+                                region.getBounds().centerY() + indexMonth * height);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                             ValueAnimator animScale1 =
                                     ObjectAnimator.ofInt(circle, "radius", 0, animZoomOut1);
@@ -678,8 +670,8 @@ public class MonthView extends View {
                         } else {
                             dateSelected.add(date);
                             BGCircle circle = createCircle(
-                                    region.getBounds().centerX() + indexMonth * width,
-                                    region.getBounds().centerY() + indexYear * height);
+                                    region.getBounds().centerX() + indexYear * width,
+                                    region.getBounds().centerY() + indexMonth * height);
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                                 ValueAnimator animScale1 =
                                         ObjectAnimator.ofInt(circle, "radius", 0, animZoomOut1);
