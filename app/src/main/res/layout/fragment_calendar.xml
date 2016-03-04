@@ -4,4 +4,10 @@
     android:layout_height="match_parent"
     tools:context="com.xmx.weschedule.Fragments.CalendarFragment">
 
+    <com.xmx.weschedule.Datepicker.views.DatePicker
+        android:id="@+id/date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
 </FrameLayout>
