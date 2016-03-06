@@ -40,7 +40,7 @@ public class TOHAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return mTodayOnHistories.get(position).getId();
     }
 
     static class ViewHolder {

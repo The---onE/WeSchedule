@@ -24,6 +24,9 @@
         <activity
             android:name=".TodayOnHistory.TOHActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".TodayOnHistory.TOHDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

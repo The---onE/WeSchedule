@@ -1,6 +1,9 @@
 package com.xmx.weschedule.TodayOnHistory;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.xmx.weschedule.ActivityBase.BaseTempActivity;
@@ -22,7 +25,16 @@ public class TOHActivity extends BaseTempActivity {
         day = getIntent().getIntExtra("day", day);
 
         mTOHList = getViewById(R.id.toh_list);
-        TOHManager.getInstance().setTodayOnHistory(month, day, mTOHList);
+        TOHManager.getInstance().setTodayOnHistoryList(month, day, mTOHList);
+
+        mTOHList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getBaseContext(), TOHDetailActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

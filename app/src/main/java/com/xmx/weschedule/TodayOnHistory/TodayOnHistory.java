@@ -16,6 +16,10 @@ public class TodayOnHistory {
         mTitle = title;
     }
 
+    public int getId() {
+        return mId;
+    }
+
     public String getDay() {
         return mDay;
     }

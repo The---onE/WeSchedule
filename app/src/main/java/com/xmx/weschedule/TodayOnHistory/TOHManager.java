@@ -2,12 +2,14 @@ package com.xmx.weschedule.TodayOnHistory;
 
 import android.content.Context;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.xmx.weschedule.Constants;
+import com.xmx.weschedule.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +39,7 @@ public class TOHManager {
         mContext = context;
     }
 
-    public void setTodayOnHistory(int month, int day, final ListView list) {
+    public void setTodayOnHistoryList(int month, int day, final ListView list) {
         String urlString = "http://v.juhe.cn/todayOnhistory/queryEvent.php?key="
                 + Constants.TOH_APP_KEY + "&date=" + month + "/" + day;
         AsyncHttpClient client = new AsyncHttpClient();
@@ -75,6 +77,51 @@ public class TOHManager {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                showToast("Error " + statusCode);
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+                showToast("Retrying");
+            }
+        });
+    }
+
+    public void setTodayOnHistoryDetail(long id, final TextView titleView,
+                                        final TextView contentView) {
+        String urlString = "http://v.juhe.cn/todayOnhistory/queryDetail.php?key="
+                + Constants.TOH_APP_KEY + "&e_id=" + id;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(urlString, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+                titleView.setText(R.string.loading);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+                try {
+                    JSONObject jsonObject = new JSONObject(new String(response));
+                    JSONArray result = jsonObject.getJSONArray("result");
+                    JSONObject item = result.getJSONObject(0);
+                    String title = item.getString("title");
+                    String content = item.getString("content");
+                    titleView.setText(title);
+                    contentView.setText(content);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    showToast("JSON Exception");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                titleView.setText(R.string.failure);
                 showToast("Error " + statusCode);
             }
 
