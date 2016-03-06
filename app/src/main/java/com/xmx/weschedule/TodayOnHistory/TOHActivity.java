@@ -30,9 +30,11 @@ public class TOHActivity extends BaseTempActivity {
         mTOHList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getBaseContext(), TOHDetailActivity.class);
-                intent.putExtra("id", id);
-                startActivity(intent);
+                if (id != -1) {
+                    Intent intent = new Intent(getBaseContext(), TOHDetailActivity.class);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+                }
             }
         });
     }

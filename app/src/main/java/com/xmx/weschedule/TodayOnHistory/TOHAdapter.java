@@ -83,9 +83,12 @@ public class TOHAdapter extends BaseAdapter {
                 Calendar calendar = Calendar.getInstance();
                 int now = calendar.get(Calendar.YEAR);
                 delta = "" + (now - year);
+                holder.delta.setVisibility(View.VISIBLE);
+                holder.delta.setText(delta + "年前");
+                holder.delta.setTextColor(Color.BLACK);
+            } else {
+                holder.delta.setVisibility(View.INVISIBLE);
             }
-            holder.delta.setText(delta + "年前");
-            holder.delta.setTextColor(Color.BLACK);
         } else {
             holder.title.setText("加载失败");
         }

@@ -1,6 +1,7 @@
 package com.xmx.weschedule.TodayOnHistory;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,15 @@ public class TOHManager {
             @Override
             public void onStart() {
                 // called before request is started
+                int id = -1;
+                String day = "";
+                String date = "";
+                String title = mContext.getResources().getString(R.string.loading);
+                List<TodayOnHistory> todayOnHistories = new ArrayList<>();
+                TodayOnHistory todayOnHistory = new TodayOnHistory(id, day, date, title);
+                todayOnHistories.add(todayOnHistory);
+                TOHAdapter tohAdapter = new TOHAdapter(mContext, todayOnHistories);
+                list.setAdapter(tohAdapter);
             }
 
             @Override
@@ -111,7 +121,9 @@ public class TOHManager {
                     String title = item.getString("title");
                     String content = item.getString("content");
                     titleView.setText(title);
+                    titleView.setTextColor(Color.BLACK);
                     contentView.setText(content);
+                    contentView.setTextColor(Color.BLACK);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast("JSON Exception");
