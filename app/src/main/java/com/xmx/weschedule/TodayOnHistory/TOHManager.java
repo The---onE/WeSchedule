@@ -2,11 +2,17 @@ package com.xmx.weschedule.TodayOnHistory;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.xmx.weschedule.Constants;
@@ -99,7 +105,7 @@ public class TOHManager {
     }
 
     public void setTodayOnHistoryDetail(long id, final TextView titleView,
-                                        final TextView contentView) {
+                                        final TextView contentView, final LinearLayout layout) {
         String urlString = "http://v.juhe.cn/todayOnhistory/queryDetail.php?key="
                 + Constants.TOH_APP_KEY + "&e_id=" + id;
         AsyncHttpClient client = new AsyncHttpClient();
@@ -124,6 +130,32 @@ public class TOHManager {
                     titleView.setTextColor(Color.BLACK);
                     contentView.setText(content);
                     contentView.setTextColor(Color.BLACK);
+
+                    JSONArray images = item.getJSONArray("picUrl");
+                    for (int i=0; i<images.length(); ++i) {
+                        JSONObject image = images.getJSONObject(i);
+
+                        SimpleDraweeView imageView = new SimpleDraweeView(mContext);
+                        LinearLayout.LayoutParams params =
+                                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                        imageView.setLayoutParams(params);
+                        imageView.setAspectRatio(1);
+
+                        GenericDraweeHierarchyBuilder builder =
+                                new GenericDraweeHierarchyBuilder(mContext.getResources());
+                        GenericDraweeHierarchy hierarchy = builder
+                                .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
+                                .build();
+                        hierarchy.setPlaceholderImage(R.mipmap.ic_launcher);
+                        imageView.setHierarchy(hierarchy);
+                        
+                        String url = image.getString("url");
+                        Uri uri = Uri.parse(url);
+                        imageView.setImageURI(uri);
+
+                        layout.addView(imageView);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast("JSON Exception");

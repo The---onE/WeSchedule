@@ -1,6 +1,7 @@
 package com.xmx.weschedule.TodayOnHistory;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xmx.weschedule.ActivityBase.BaseTempActivity;
@@ -15,7 +16,9 @@ public class TOHDetailActivity extends BaseTempActivity {
         if (id != -1) {
             TextView title = getViewById(R.id.toh_title);
             TextView content = getViewById(R.id.toh_content);
-            TOHManager.getInstance().setTodayOnHistoryDetail(id, title, content);
+            LinearLayout layout = getViewById(R.id.toh_content_layout);
+
+            TOHManager.getInstance().setTodayOnHistoryDetail(id, title, content, layout);
         }
     }
 
