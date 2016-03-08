@@ -122,39 +122,44 @@ public class TOHManager {
                 // called when response HTTP status is "200 OK"
                 try {
                     JSONObject jsonObject = new JSONObject(new String(response));
-                    JSONArray result = jsonObject.getJSONArray("result");
-                    JSONObject item = result.getJSONObject(0);
-                    String title = item.getString("title");
-                    String content = item.getString("content");
-                    titleView.setText(title);
-                    titleView.setTextColor(Color.BLACK);
-                    contentView.setText(content);
-                    contentView.setTextColor(Color.BLACK);
+                    int errorCode = jsonObject.getInt("error_code");
+                    if (errorCode == 0) {
+                        JSONArray result = jsonObject.getJSONArray("result");
+                        JSONObject item = result.getJSONObject(0);
+                        String title = item.getString("title");
+                        String content = item.getString("content");
+                        titleView.setText(title);
+                        titleView.setTextColor(Color.BLACK);
+                        contentView.setText(content);
+                        contentView.setTextColor(Color.BLACK);
 
-                    JSONArray images = item.getJSONArray("picUrl");
-                    for (int i=0; i<images.length(); ++i) {
-                        JSONObject image = images.getJSONObject(i);
+                        JSONArray images = item.getJSONArray("picUrl");
+                        for (int i = 0; i < images.length(); ++i) {
+                            JSONObject image = images.getJSONObject(i);
 
-                        SimpleDraweeView imageView = new SimpleDraweeView(mContext);
-                        LinearLayout.LayoutParams params =
-                                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                        LinearLayout.LayoutParams.WRAP_CONTENT);
-                        imageView.setLayoutParams(params);
-                        imageView.setAspectRatio(1);
+                            SimpleDraweeView imageView = new SimpleDraweeView(mContext);
+                            LinearLayout.LayoutParams params =
+                                    new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                            imageView.setLayoutParams(params);
+                            imageView.setAspectRatio(1);
 
-                        GenericDraweeHierarchyBuilder builder =
-                                new GenericDraweeHierarchyBuilder(mContext.getResources());
-                        GenericDraweeHierarchy hierarchy = builder
-                                .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
-                                .build();
-                        hierarchy.setPlaceholderImage(R.mipmap.ic_launcher);
-                        imageView.setHierarchy(hierarchy);
-                        
-                        String url = image.getString("url");
-                        Uri uri = Uri.parse(url);
-                        imageView.setImageURI(uri);
+                            GenericDraweeHierarchyBuilder builder =
+                                    new GenericDraweeHierarchyBuilder(mContext.getResources());
+                            GenericDraweeHierarchy hierarchy = builder
+                                    .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
+                                    .build();
+                            hierarchy.setPlaceholderImage(R.mipmap.ic_launcher);
+                            imageView.setHierarchy(hierarchy);
 
-                        layout.addView(imageView);
+                            String url = image.getString("url");
+                            Uri uri = Uri.parse(url);
+                            imageView.setImageURI(uri);
+
+                            layout.addView(imageView);
+                        }
+                    } else if (errorCode == 206302) {
+                        titleView.setText(R.string.no_data);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
