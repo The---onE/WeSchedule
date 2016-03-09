@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.xmx.weschedule.DateInformation.DateInformationActivity;
 import com.xmx.weschedule.Datepicker.cons.DPMode;
 import com.xmx.weschedule.Datepicker.views.DatePicker;
 import com.xmx.weschedule.R;
@@ -32,7 +33,7 @@ public class CalendarFragment extends Fragment {
         picker.setOnDatePickedListener(new DatePicker.OnDatePickedListener() {
             @Override
             public void onDatePicked(String date) {
-                Intent intent = new Intent(getContext(), TOHActivity.class);
+                Intent intent = new Intent(getContext(), DateInformationActivity.class);
 
                 String regex = "(.+?)-(\\d+)-(\\d+)"; //格式为yyyy-M-d
                 Pattern pattern = Pattern.compile(regex);

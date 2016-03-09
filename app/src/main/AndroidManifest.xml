@@ -27,6 +27,8 @@
         <activity
             android:name=".TodayOnHistory.TOHDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DateInformation.DateInformationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -15,4 +15,5 @@ public class Constants {
     public static final int[] DAYS_OF_MONTH = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     public static final String TOH_APP_KEY = "3cad08c00c2735add4ff8d0ff54349fb";
+    public static final String DATE_APP_KEY = "8ac56625b7096982418a4852b79335f2";
 }
