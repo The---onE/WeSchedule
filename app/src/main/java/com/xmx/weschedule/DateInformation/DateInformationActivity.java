@@ -7,11 +7,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.xmx.weschedule.ActivityBase.BaseTempActivity;
+import com.xmx.weschedule.Constants;
 import com.xmx.weschedule.R;
 import com.xmx.weschedule.TodayOnHistory.TOHActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 public class DateInformationActivity extends BaseTempActivity {
     int year, month, day;
@@ -28,7 +31,21 @@ public class DateInformationActivity extends BaseTempActivity {
             @Override
             public void start() {
                 TextView yangliView = getViewById(R.id.date_yangli);
-                yangliView.setText(getString(R.string.loading));
+                yangliView.setText(year + "年" + month + "月" + day + "日");
+
+                Date date = new Date();
+                date.setYear(year - 1900);
+                date.setMonth(month - 1);
+                date.setDate(day);
+                String week = Constants.DAY_OF_WEEK[date.getDay()];
+                TextView weekView = getViewById(R.id.date_week);
+                weekView.setText(week);
+
+                TextView dayView = getViewById(R.id.date_day);
+                dayView.setText("" + day);
+
+                TextView yinliView = getViewById(R.id.date_yinli);
+                yinliView.setText(getString(R.string.loading));
             }
 
             @Override
@@ -45,16 +62,14 @@ public class DateInformationActivity extends BaseTempActivity {
                     String xiongshen = result.getString("xiongshen");
                     String ji = result.getString("ji");
 
-                    TextView yangliView = getViewById(R.id.date_yangli);
-                    yangliView.setText("阳历：" + yangli);
                     TextView yinliView = getViewById(R.id.date_yinli);
-                    yinliView.setText("阴历：" + yinli);
+                    yinliView.setText("" + yinli);
                     TextView wuxingView = getViewById(R.id.date_wuxing);
                     wuxingView.setText("五行：" + wuxing);
                     TextView chongshaView = getViewById(R.id.date_chongsha);
                     chongshaView.setText("冲煞：" + chongsha);
                     TextView baijiView = getViewById(R.id.date_baiji);
-                    baijiView.setText("彭祖百忌：" + baiji);
+                    baijiView.setText("" + baiji);
                     TextView jishenView = getViewById(R.id.date_jishen);
                     jishenView.setText("吉神宜趋：" + jishen);
                     TextView yiView = getViewById(R.id.date_yi);
