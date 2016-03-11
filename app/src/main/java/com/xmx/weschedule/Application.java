@@ -1,6 +1,7 @@
 package com.xmx.weschedule;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.xmx.weschedule.Database.DataManager;
 import com.xmx.weschedule.DateInformation.DateManager;
 import com.xmx.weschedule.TodayOnHistory.TOHManager;
 
@@ -15,5 +16,7 @@ public class Application extends android.app.Application {
         Fresco.initialize(this);
         TOHManager.getInstance().setContext(this);
         DateManager.getInstance().setContext(this);
+
+        DataManager.getInstance().setContext(this);
     }
 }
