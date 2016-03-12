@@ -125,7 +125,7 @@ public class SQLManager {
         if (!checkDatabase()) {
             return null;
         }
-        return database.rawQuery("select * from SCHEDULE where STATUS = 0 order by ACTUAL_TIME asc limit " + 1, null);
+        return database.rawQuery("select * from SCHEDULE where STATUS = 0 order by TIME asc limit " + 1, null);
     }
 
     public boolean cancelSchedule(int id) {
@@ -162,7 +162,7 @@ public class SQLManager {
         if (!checkDatabase()) {
             return null;
         }
-        return database.rawQuery("select * from SCHEDULE where STATUS = 0 order by ACTUAL_TIME", null);
+        return database.rawQuery("select * from SCHEDULE where STATUS = 0 order by TIME", null);
     }
 
     public Cursor selectById(int id) {

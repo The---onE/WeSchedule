@@ -72,6 +72,7 @@ public final class DPCManager {
      * @param date 日期列表 List of date
      */
     public void setDecorBG(List<String> date) {
+        DATE_CACHE.clear();
         setDecor(date, DECOR_CACHE_BG);
     }
 
@@ -83,6 +84,7 @@ public final class DPCManager {
      * @param date 日期列表 List of date
      */
     public void setDecorTL(List<String> date) {
+        DATE_CACHE.clear();
         setDecor(date, DECOR_CACHE_TL);
     }
 
@@ -94,6 +96,7 @@ public final class DPCManager {
      * @param date 日期列表 List of date
      */
     public void setDecorT(List<String> date) {
+        DATE_CACHE.clear();
         setDecor(date, DECOR_CACHE_T);
     }
 
@@ -105,6 +108,7 @@ public final class DPCManager {
      * @param date 日期列表 List of date
      */
     public void setDecorTR(List<String> date) {
+        DATE_CACHE.clear();
         setDecor(date, DECOR_CACHE_TR);
     }
 
@@ -116,6 +120,7 @@ public final class DPCManager {
      * @param date 日期列表 List of date
      */
     public void setDecorL(List<String> date) {
+        DATE_CACHE.clear();
         setDecor(date, DECOR_CACHE_L);
     }
 
@@ -127,6 +132,7 @@ public final class DPCManager {
      * @param date 日期列表 List of date
      */
     public void setDecorR(List<String> date) {
+        DATE_CACHE.clear();
         setDecor(date, DECOR_CACHE_R);
     }
 
