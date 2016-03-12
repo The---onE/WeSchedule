@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.xmx.weschedule.ActivityBase.BaseTempActivity;
 import com.xmx.weschedule.Constants;
 import com.xmx.weschedule.R;
+import com.xmx.weschedule.Schedule.AddScheduleActivity;
 import com.xmx.weschedule.TodayOnHistory.TOHActivity;
 
 import org.json.JSONException;
@@ -94,6 +95,18 @@ public class DateInformationActivity extends BaseTempActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DateInformationActivity.this, TOHActivity.class);
+                intent.putExtra("year", year);
+                intent.putExtra("month", month);
+                intent.putExtra("day", day);
+                startActivity(intent);
+            }
+        });
+
+        Button addSchedule = getViewById(R.id.btn_add_schedule);
+        addSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DateInformationActivity.this, AddScheduleActivity.class);
                 intent.putExtra("year", year);
                 intent.putExtra("month", month);
                 intent.putExtra("day", day);
