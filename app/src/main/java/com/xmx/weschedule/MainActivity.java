@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import com.xmx.weschedule.ActivityBase.BaseNavigationActivity;
 import com.xmx.weschedule.Fragments.CalendarFragment;
 import com.xmx.weschedule.Fragments.PagerAdapter;
-import com.xmx.weschedule.Fragments.PlanListFragment;
+import com.xmx.weschedule.Fragments.ScheduleFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class MainActivity extends BaseNavigationActivity {
 
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new CalendarFragment());
-        fragments.add(new PlanListFragment());
+        fragments.add(new ScheduleFragment());
 
         List<String> titles = new ArrayList<>();
         titles.add("日历");
