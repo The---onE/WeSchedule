@@ -34,9 +34,9 @@ public class ScheduleManager {
         SQLManager sqlManager = SQLManager.getInstance();
         if (sqlManager.getVersion() != sqlVersion) {
             sqlVersion = sqlManager.getVersion();
-
-            Cursor c = sqlManager.selectFutureSchedule();
             schedules.clear();
+
+            Cursor c = sqlManager.selectPastSchedule();
             if (c.moveToFirst()) {
                 do {
                     int id = SQLManager.getId(c);
@@ -45,7 +45,21 @@ public class ScheduleManager {
                     int type = SQLManager.getType(c);
                     long time = SQLManager.getTime(c);
 
-                    Schedule s = new Schedule(id, title, text, time, type);
+                    Schedule s = new Schedule(id, title, text, time, type, false);
+                    schedules.add(s);
+                } while (c.moveToNext());
+            }
+
+            c = sqlManager.selectFutureSchedule();
+            if (c.moveToFirst()) {
+                do {
+                    int id = SQLManager.getId(c);
+                    String title = SQLManager.getTitle(c);
+                    String text = SQLManager.getText(c);
+                    int type = SQLManager.getType(c);
+                    long time = SQLManager.getTime(c);
+
+                    Schedule s = new Schedule(id, title, text, time, type, true);
                     schedules.add(s);
                 } while (c.moveToNext());
             }

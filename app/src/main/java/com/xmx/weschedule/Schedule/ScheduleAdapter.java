@@ -2,6 +2,7 @@ package com.xmx.weschedule.Schedule;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class ScheduleAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
+        CardView card;
         TextView title;
         TextView time;
         TextView text;
@@ -59,6 +61,7 @@ public class ScheduleAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_schedule, null);
             holder = new ViewHolder();
+            holder.card = (CardView) convertView.findViewById(R.id.schedule_card);
             holder.title = (TextView) convertView.findViewById(R.id.card_title);
             holder.time = (TextView) convertView.findViewById(R.id.card_time);
             holder.text = (TextView) convertView.findViewById(R.id.card_text);
@@ -77,6 +80,12 @@ public class ScheduleAdapter extends BaseAdapter {
 
             holder.text.setText(schedule.getText());
             holder.text.setTextColor(Color.BLACK);
+
+            if (schedule.isFuture()) {
+                holder.card.setCardBackgroundColor(Color.GREEN);
+            } else {
+                holder.card.setCardBackgroundColor(Color.GRAY);
+            }
         } else {
             holder.title.setText("加载失败");
             holder.time.setText("");

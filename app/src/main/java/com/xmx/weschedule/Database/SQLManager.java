@@ -158,11 +158,29 @@ public class SQLManager {
         }
     }
 
-    public Cursor selectFutureSchedule() {
+    public Cursor selectEnableSchedule() {
         if (!checkDatabase()) {
             return null;
         }
         return database.rawQuery("select * from SCHEDULE where STATUS = 0 order by TIME", null);
+    }
+
+    public Cursor selectFutureSchedule() {
+        if (!checkDatabase()) {
+            return null;
+        }
+        Date now = new Date();
+        return database.rawQuery("select * from SCHEDULE where STATUS = 0 and TIME > " + now.getTime()
+                + " order by TIME", null);
+    }
+
+    public Cursor selectPastSchedule() {
+        if (!checkDatabase()) {
+            return null;
+        }
+        Date now = new Date();
+        return database.rawQuery("select * from SCHEDULE where STATUS = 0 and TIME <= " + now.getTime()
+                + " order by TIME", null);
     }
 
     public Cursor selectById(int id) {

@@ -15,7 +15,9 @@ public class Schedule {
     String mTimeString;
     int mType;
 
-    public Schedule(int id, String title, String text, long time, int type) {
+    boolean mFutureFlag;
+
+    public Schedule(int id, String title, String text, long time, int type, boolean futureFlag) {
         mId = id;
         mTitle = title;
         mText = text;
@@ -26,6 +28,8 @@ public class Schedule {
         mTimeString = df.format(date);
 
         mType = type;
+
+        mFutureFlag = futureFlag;
     }
 
     public int getId() {
@@ -50,5 +54,9 @@ public class Schedule {
 
     public int getType() {
         return mType;
+    }
+
+    public boolean isFuture() {
+        return mFutureFlag;
     }
 }
