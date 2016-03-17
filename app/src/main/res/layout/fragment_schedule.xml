@@ -8,10 +8,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Fragments.ScheduleFragment">
 
-    <com.yydcdut.sdlv.SlideAndDragListView
-        android:id="@+id/list_schedule"
+    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
+        android:id="@+id/item_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="10dp" />
+        android:layout_height="match_parent">
+
+        <com.yydcdut.sdlv.SlideAndDragListView
+            android:id="@+id/list_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="10dp" />
+
+    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
 </FrameLayout>
